@@ -1,0 +1,221 @@
+:: Pet Interact
+<<if def $lpet>>
+	你看着你的宠物，$lpet.name。
+	<br>
+	<<lpetdesc>>
+	<br><br>
+	<strong>状态:</strong>
+	<ul>
+		<li><<lpetmooddesc>></li>
+		<li><<lpetcalmdesc>></li>
+		<li><<lpetrelationdesc>></li>
+		<li><<lpetcleanlinessdesc>></li>
+		<li><<lpetstrengthdesc>></li>
+		<li><<lpethungerdesc>></li>
+		<li><<lpetenergydesc>></li>
+	</ul>
+	<br>
+	<strong>互动:</strong>
+	<br>
+	<<link [[日常互动|Pet Interact Daily]]>><</link>>
+	<br>
+	<<link [[梳理毛发|Pet Groom]]>><</link>>
+	<br>
+	<<link [[爱抚|Pet Cuddle]]>><</link>>
+	<br>
+	<<link [[训练|Pet Train Self]]>><</link>>
+	<br><br>
+	<strong>装备:</strong>
+	<br>
+	<<if $lpet_collar_owned>>
+		<<if $lpet.collar>>
+			<<link [[摘下项圈|Pet Equip Collar]]>><</link>>
+		<<else>>
+			<<link [[戴上项圈|Pet Equip Collar]]>><</link>>
+		<</if>>
+	<<else>>
+		<span class="l-disabled">你没有项圈。</span>
+	<</if>>
+	<br>
+	<<if $lpet_muzzle_owned>>
+		<<if $lpet.muzzle>>
+			<<link [[摘下嘴套|Pet Equip Muzzle]]>><</link>>
+		<<else>>
+			<<link [[戴上嘴套|Pet Equip Muzzle]]>><</link>>
+		<</if>>
+	<<else>>
+		<span class="l-disabled">你没有嘴套。</span>
+	<</if>>
+	<br><br>
+	<<link [[返回|Home]]>><</link>> /* 假设有一个名为Home的返回点 */
+<<else>>
+	你没有宠物。也许该去宠物商店看看？
+	<br>
+	<<link [[返回|Home]]>><</link>>
+<</if>>
+
+
+:: Pet Interact Daily
+<<pass 5>>
+<<lpetmood 10>>
+<<trauma -1>>
+<<tiredness 30>>
+
+<<if !$daily.lpet.interacted>>
+	<<set $daily.lpet.interacted to true>>
+	<<lpetrelation 1>>
+	<<lpetcalm 2>>
+	这是你们今天第一次互动，$lpet.name显得格外开心。<<lpetgrelation>><<lpetggcalm>>
+	<br>
+<</if>>
+
+<<if $lpet.type is "cat">>
+	<<if $lpet.gender is "male">>
+		<<switch random(1,5)>>
+			<<case 1>>你拿出逗猫棒，这位猫王子立刻展现了<<lpethis>>捕猎技巧。
+			<<case 2>>$lpet.name跳上你的膝盖，像个小小的引擎一样发出咕噜声。
+			<<case 3>>你轻轻挠着<<lpethis>>下巴，<<lpethe>>舒服地眯起了眼睛，一副帝王般的享受。
+			<<case 4>><<lpetHe>>用头有力地蹭了蹭你的手，宣示着<<lpethis>>所有权。
+			<<case 5>>你看着$lpet.name自顾自地追着自己尾巴转圈，这位小伙子看起来有点傻。
+		<</switch>>
+	<<else>>
+		<<switch random(1,5)>>
+			<<case 1>>你晃动羽毛棒，这位猫公主优雅地扑了上来，动作轻盈。
+			<<case 2>>$lpet.name文静地卧在你身边，用<<lpethis>>大眼睛温柔地看着你。
+			<<case 3>>你挠了挠<<lpethis>>耳后，<<lpethe>>发出了甜美的喵叫声。
+			<<case 4>><<lpetHe>>轻柔地用脸颊蹭你的手，像是在撒娇。
+			<<case 5>>你看着$lpet.name端庄地舔着爪子，不愧是一位优雅的女士。
+		<</switch>>
+	<</if>>
+<<else>> /* dog */
+	<<if $lpet.gender is "male">>
+		<<switch random(1,5)>>
+			<<case 1>>你扔出飞盘，$lpet.name如离弦之箭般冲出去捡了回来，像个得胜的将军。
+			<<case 2>>你和$lpet.name玩起了拔河游戏，<<lpethis>>蛮力可真不小。
+			<<case 3>>$lpet.name把大脑袋靠在你的腿上，安静地做你的守护骑士。
+			<<case 4>>你教<<lpethe>>“握手”，这位聪明的先生很快就学会了。
+			<<case 5>>你摸了摸<<lpethis>>肚子，<<lpethe>>毫无防备地躺在地上，把一切都交给了你。
+		<</switch>>
+	<<else>>
+		<<switch random(1,5)>>
+			<<case 1>>你扔出小球，$lpet.name欢快地跑去捡了回来，把球温柔地放在你脚边。
+			<<case 2>>你和$lpet.name在草地上追逐，<<lpethis>>笑声像银铃一样。
+			<<case 3>>$lpet.name把头靠在你的腿上，用湿漉漉的眼睛凝视着你，充满了爱意。
+			<<case 4>>你教<<lpethe>>“转圈”，这位可爱的小姐为你跳起了笨拙的舞蹈。
+			<<case 5>>你摸了摸<<lpethis>>肚子，<<lpethe>>害羞地扭了扭身子，但还是享受着你的抚摸。
+		<</switch>>
+	<</if>>
+<</if>>
+<br>
+<<lpetgmood>><<ltrauma>><<ggtiredness>>
+<br><br>
+<<link [[继续|Pet Interact]]>><</link>>
+
+
+:: Pet Groom
+<<if $daily.lpet.groomed>>
+	你今天已经为$lpet.name梳理过毛发了，<<lpethe>>现在很干净，不需要更多了。
+<<else>>
+	<<set $daily.lpet.groomed to true>>
+	<<pass 15>>
+	<<lpetmood 5>>
+	<<lpetcalm -1>>
+	<<lpetcleanliness 20>>
+	<<trauma -2>>
+	<<tiredness 200>>
+
+	<<if $lpet.type is "cat">>
+		<<if $lpet.gender is "male">>
+			你为这位高冷的王子服务，<<lpethe>>虽然一脸不情愿，但身体很诚实地享受着。
+		<<else>>
+			你为这位爱美的小姐梳理毛发，<<lpethe>>非常配合，似乎很享受变漂亮的过程。
+		<</if>>
+	<<else>>
+		<<if $lpet.gender is "male">>
+			你给这个傻小子梳毛，<<lpethe>>把这当成了游戏，不停地扭来扭去。
+		<<else>>
+			你为这位文静的淑女梳毛，<<lpethe>>乖巧地趴着，任你打理。
+		<</if>>
+	<</if>>
+	<br>
+	<<lpetgmood>><<lpetlcalm>><<lpetggcleanliness>><<lltrauma>><<gggtiredness>>
+<</if>>
+<br><br>
+<<link [[继续|Pet Interact]]>><</link>>
+
+
+:: Pet Cuddle
+<<if $daily.lpet.cuddled>>
+	$lpet.name今天已经享受了足够的爱抚，现在<<lpethe>>想自己待一会儿。
+<<else>>
+	<<set $daily.lpet.cuddled to true>>
+	<<pass 30>>
+	<<lpetrelation 2>>
+	<<lpetmood 15>>
+	<<lpetcalm -5>>
+	<<trauma -20>>
+	<<tiredness -120>>
+
+	<<if $lpet.gender is "male">>
+		你将$lpet.name抱在怀里，这个平时威风凛凛的家伙在你怀里变得无比温顺。
+	<<else>>
+		你将$lpet.name抱在怀里，这个温柔的小姑娘把头埋进你的臂弯，充满了依赖。
+	<</if>>
+	<br>
+	<<lpetggrelation>><<lpetggmood>><<lpetlllcalm>><<llltrauma>><<llltiredness>>
+<</if>>
+<br><br>
+<<link [[继续|Pet Interact]]>><</link>>
+
+
+:: Pet Train Self
+<<if $daily.lpet.trained>>
+	今天的训练量已经足够了，让$lpet.name休息一下吧。
+<<else>>
+	<<set $daily.lpet.trained to true>>
+	<<pass 30>>
+	<<lpetrelation 2>>
+	<<lpetmood 10>>
+	<<lpetstrength 1>>
+	<<lpetenergy -20>>
+	<<tiredness 300>>
+
+	<<if $lpet.gender is "male">>
+		你对$lpet.name进行了训练，<<lpethe>>充满了竞争欲，渴望向你证明<<lpethis>>的强大。
+	<<else>>
+		你对$lpet.name进行了训练，<<lpethe>>更像是在和你做游戏，<<lpethis>>的聪慧让你惊喜。
+	<</if>>
+	<br>
+	<<lpetggrelation>><<lpetgmood>><<lpetgstrength>><<lpetlenergy>><<gggtiredness>>
+<</if>>
+<br><br>
+<<link [[继续|Pet Interact]]>><</link>>
+
+
+:: Pet Equip Muzzle
+<<if $lpet.muzzle>>
+	<<set $lpet.muzzle to false>>
+	你摘下了$lpet.name的嘴套。<<lpethe>>甩了甩头，看起来轻松多了。
+	<<lpetcalm 2>>
+	<<lpetgcalm>>
+<<else>>
+	<<set $lpet.muzzle to true>>
+	你给$lpet.name戴上了嘴套。<<lpethe>>看起来有些不情愿，但还是接受了。
+	<<lpetcalm -2>>
+	<<lpetlcalm>>
+<</if>>
+<br><br>
+<<link [[继续|Pet Interact]]>><</link>>
+
+
+:: Pet Equip Collar
+<<if $lpet.collar>>
+	<<set $lpet.collar to false>>
+	你解开了$lpet.name的项圈。
+<<else>>
+	<<set $lpet.collar to true>>
+	你为$lpet.name戴上了漂亮的项圈，现在可以带<<lpethe>>出门散步了。
+<</if>>
+<br><br>
+<<link [[继续|Pet Interact]]>><</link>>
+

@@ -1,0 +1,296 @@
+:: Pet Shop Entrance
+你靠近宠物商店中的宠物售卖专区。空气中弥漫着宠物香波和干粮混合的奇特味道。区域不大，但货架上摆满了各式各样的宠物用品。几只小动物在透明的展示柜里好奇地打量着你。
+<br><br>
+一位和蔼的店员微笑着向你走来：“欢迎光临！有什么可以帮您的吗？”
+<br><br>
+<<if def $lpet>>
+	你带着<<print $lpet.name>>来到了这里。
+	<br><br>
+<</if>>
+<<link [[购买一只新宠物|Pet Shop Buy]]>><</link>>
+<br>
+<<link [[购买宠物用品|Pet Shop Supplies]]>><</link>>
+<br>
+<<link [[为宠物进行清洁|Pet Shop Clean]]>><</link>>
+<br>
+<<link [[让宠物接受专业训练|Pet Shop Train]]>><</link>>
+<br>
+<<link [[宠物寄养服务|Pet Abandon]]>><</link>>
+<br><br>
+<<link [[离开|Pet Shop]]>><</link>>
+
+
+:: Pet Shop Buy
+<<if def $lpet>>
+	店员抱歉地笑了笑：“您已经有宠物了，我们建议您全心全意地照顾<<lpethe>>。一个家庭最好只拥有一只宠物，这样才能给予<<lpethe>>全部的爱。”
+	<br><br>
+	<<link [[返回|Pet Shop Entrance]]>><</link>>
+<<else>>
+	店员热情地把你引到展示柜前。“看看这些可爱的小家伙吧！它们都在等待一个温暖的家。”
+	<br><br>
+	<<for _lpet_i to 0; _lpet_i lt 3; _lpet_i++>>
+		<<set _lpet_temp to {}>>
+		<<set _lpet_temp.type to either("cat", "dog")>>
+		<<set _lpet_temp.gender to either("male", "female")>>
+		<<if _lpet_temp.gender is "male">>
+			<<set _lpet_temp.pronoun to "他">>
+		<<else>>
+			<<set _lpet_temp.pronoun to "她">>
+		<</if>>
+		<<set _lpet_temp.location to "home">> /* 默认位置 */
+		<<set _lpet_temp.following to false>>
+		<<set _lpet_temp.muzzle to false>>
+		<<set _lpet_temp.collar to false>>
+		<<set _lpet_temp.stats to {
+			mood: random(40, 60),
+			calm: random(50, 70),
+			relation: 10,
+			cleanliness: random(60, 80),
+			strength: random(20, 40),
+			hunger: random(50, 80),
+			energy: random(70, 90)
+		}>>
+		<<set _lpet_temp.counters to {}>>
+
+		<<if _lpet_temp.type is "cat">>
+			<<set _lpet_temp.name to either(
+			"咪咪", "花花", "小灰", "蛋蛋", "豆豆", "小白", "橘子", "奶酪", "小狸", "黑妞",
+			"团团", "小花", "乐乐", "卷卷", "糯米", "喜儿", "呆呆", "元宝", "喵喵", "琪琪",
+			"阿喵", "雪球", "皮皮", "可可", "肉包", "团子", "喵仔", "毛球", "奶茶", "小虎",
+			"糖糖", "狸狸", "小黑", "雪糕", "嘟嘟", "欢欢", "小狸", "阿灰", "阿花", "肉肉",
+			"小懒", "绵绵", "泡泡", "汤姆", "橙橙", "咕咕", "布丁", "点点", "琪琪", "喵酱"
+			)>>
+			<<set _lpet_temp.attackMax to random(5, 15)>>
+			<<set _lpet_temp.appearance to {
+				body: either("娇小的身躯", "修长的体态", "圆滚滚的身体"),
+				eyes: either("碧绿的眼睛", "蓝宝石般的眼睛", "金色的瞳孔"),
+				skin: either("纯白的长毛", "黑白相间的短毛", "橘色的虎斑纹"),
+				breed: either("英短", "美短", "布偶")
+			}>>
+			<<set _lpet_price to random(800, 1500) * 100>>
+		<<else>>
+			<<set _lpet_temp.name to either(
+			"旺财", "豆豆", "巴克", "露西", "来福", "妞妞", "毛毛", "皮皮", "欢欢", "乐乐",
+			"小黑", "雪儿", "点点", "贝贝", "阿宝", "花花", "球球", "多多", "囡囡", "小七",
+			"小白", "肉肉", "馒头", "跳跳", "牛牛", "大壮", "米粒", "呆呆", "小乖", "憨憨",
+			"西西", "蛋蛋", "壮壮", "嘟嘟", "糖糖", "小虎", "卡卡", "小美", "布丁", "欢仔",
+			"小豆", "琪琪", "噜噜", "妮妮", "阿黄", "小贝", "菲菲", "滚滚", "小狼", "淘淘"
+			)>>
+			<<set _lpet_temp.attackMax to random(5, 40)>>
+			<<set _lpet_temp.appearance to {
+				body: either("健硕的体格", "巨大的身躯", "小巧玲珑的身体"),
+				eyes: either("乌黑发亮的眼睛", "棕色的眼睛", "清澈的眼眸"),
+				skin: either("金色的短毛", "黑色的卷毛", "棕白相间的斑点"),
+				breed: either("金毛", "哈士奇", "柯基")
+			}>>
+			<<set _lpet_price to random(1000, 2000) * 100>>
+		<</if>>
+
+		<fieldset style="border: 1px solid #ccc; padding: 10px; margin-bottom: 10px;">
+			<legend><<print _lpet_temp.name>></legend>
+			它是一只<<print _lpet_temp.gender === 'male' ? '公' : '母'>><<print _lpet_temp.type === 'cat' ? '猫' : '狗'>>，有着<<print _lpet_temp.appearance.body>>、<<print _lpet_temp.appearance.eyes>>和<<print _lpet_temp.appearance.skin>>。
+			<br>
+			品种: <<print _lpet_temp.appearance.breed>>
+			<br>
+			价格: <<print `£${_lpet_price / 100}`>>
+			<br>
+			<<if $money gte _lpet_price>>
+				<<capture _lpet_temp>>
+				<<link [[领养_lpet_temp.name|Pet Rename]]>>
+					<<set $lpet to clone(_lpet_temp)>>
+					<<money `-_lpet_price` "petShop">>
+					<<pass 10>>
+				<</link>>
+				<</capture>>
+			<<else>>
+				<span class="red">你的钱不够。</span>
+			<</if>>
+		</fieldset>
+		<br>
+	<</for>>
+	<<link [[返回|Pet Shop Entrance]]>><</link>>
+<</if>>
+
+
+:: Pet Rename
+你办好了所有手续，支付了费用。店员将这只<<print $lpet.gender === 'male' ? '小公' : '小母'>>家伙小心翼翼地抱给你。
+<br><br>
+“给<<lpethe>>取个新名字吧？”
+<br><br>
+<<textbox "$lpet_temp_name" $lpet.name>>
+<br><br>
+<<link [[就叫这个名字了|Pet Shop Buy Confirm]]>>
+	<<set $lpet.name to $lpet_temp_name>>
+	<<unset $lpet_temp_name>>
+<</link>>
+
+
+:: Pet Shop Buy Confirm
+你决定将<<lpethe>>叫做“<<print $lpet.name>>”。
+<br><br>
+店员将<<print $lpet.name>>小心翼翼地放进一个航空箱里交给你。
+“一定要好好待<<lpethe>>哦！”店员叮嘱道。
+<br><br>
+你现在是<<print $lpet.name>>的主人了。
+<br><br>
+<<link [[返回|Pet Shop Entrance]]>><</link>>
+
+
+:: Pet Shop Supplies
+店员向你展示了货架上的商品。
+<br><br>
+<ul>
+	<li>
+		<strong>遛弯项圈</strong> (价格: £150) - 带宠物出门散步的必需品。
+		<br>
+		<<if $lpet_collar_owned>>
+			<span class="green">你已经购买了。</span>
+		<<elseif $money gte 15000>>
+			<<link [[购买|Pet Shop Supplies]]>>
+				<<set $lpet_collar_owned to true>>
+				<<money -15000 "petShop">>
+				<<pass 5>>
+			<</link>>
+		<<else>>
+			<span class="red">你的钱不够。</span>
+		<</if>>
+	</li>
+	<br>
+	<li>
+		<strong>嘴套</strong> (价格: £120) - 防止宠物乱叫或误食。
+		<br>
+		<<if $lpet_muzzle_owned>>
+			<span class="green">你已经购买了。</span>
+		<<elseif $money gte 12000>>
+			<<link [[购买|Pet Shop Supplies]]>>
+				<<set $lpet_muzzle_owned to true>>
+				<<money -12000 "petShop">>
+				<<pass 5>>
+			<</link>>
+		<<else>>
+			<span class="red">你的钱不够。</span>
+		<</if>>
+	</li>
+</ul>
+<br><br>
+<<link [[返回|Pet Shop Entrance]]>><</link>>
+
+
+:: Pet Shop Clean
+<<if ndef $lpet>>
+	你目前没有宠物需要清洁。
+	<br><br>
+	<<link [[返回|Pet Shop Entrance]]>><</link>>
+<<else>>
+	你向店员咨询了宠物清洁服务。
+	<br><br>
+	“当然！我们的专业宠物美容服务收费£300，能让您的宝贝焕然一新。”
+	<br><br>
+	<<if $money gte 30000>>
+		<span id="clean-result">
+		<<link "支付£300进行清洁">>
+			<<money -30000 "petShop">>
+			<<pass 60>>
+			<<set $lpet.stats.cleanliness to 100>>
+			<<set $lpet.stats.mood to Math.clamp($lpet.stats.mood + 10, 0, 100)>>
+			<<replace "#clean-result">>
+				经过一个小时的等待，$lpet.name被送了出来。<<lpethis>>毛发蓬松，香气扑鼻，看起来非常享受。
+				<br>
+				<<lpetgcleanliness>><<lpetgmood>>
+			<</timed>>
+		<</link>>
+		</span>
+	<<else>>
+		<span class="red">你的钱不够支付清洁费用。</span>
+	<</if>>
+	<br><br>
+	<<link [[返回|Pet Shop Entrance]]>><</link>>
+<</if>>
+
+
+:: Pet Shop Train
+<<if ndef $lpet>>
+	你目前没有宠物可以训练。
+	<br><br>
+	<<link [[返回|Pet Shop Entrance]]>><</link>>
+<<else>>
+	你询问了关于宠物训练的课程。
+	<br><br>
+	“我们有专业的驯兽师，可以提升您宠物的体格。一次课程收费£500。”
+	<br><br>
+	<<if $money gte 50000>>
+		<span id="train-result">
+		<<link "支付£500进行训练">>
+			<<money -50000 "petShop">>
+			<<pass 90>>
+			<<lpetstrength 2>>
+			<<lpetcalm 1>>
+			<<set $lpet.stats.energy to Math.clamp($lpet.stats.energy - 30, 0, 100)>>
+			<<replace "#train-result">>
+				在驯兽师的指导下，$lpet.name完成了一系列高难度动作。<<lpethe>>看起来有些疲惫，但眼神更加自信了。
+				<br>
+				<<lpetggstrength>><<lpetgcalm>><<lpetllenergy>>
+			<</timed>>
+		<</link>>
+		</span>
+	<<else>>
+		<span class="red">你的钱不够支付训练费用。</span>
+	<</if>>
+	<br><br>
+	<<link [[返回|Pet Shop Entrance]]>><</link>>
+<</if>>
+
+
+:: Pet Abandon
+<<if ndef $lpet>>
+	店员困惑地看着你。“寄养服务？可是您身边没有宠物呀。”
+	<br><br>
+	<<link [[返回|Pet Shop Entrance]]>><</link>>
+<<else>>
+	你向店员提出了一个难以启齿的请求，你希望将$lpet.name留在这里。
+	<br><br>
+	店员的笑容消失了，她严肃地看着你：“您是认真的吗？这意味着您将永远放弃对$lpet.name的抚养权。我们会为<<lpethe>>寻找新的家庭，但您将再也无法见到<<lpethe>>。这会对您造成巨大的情感创伤。”
+	<br><br>
+	你看着$lpet.name，<<lpethe>>似乎察觉到了什么，不安地蹭了蹭你的裤腿。
+	<br><br>
+	<span class="red"><strong>警告：这是一个不可逆转的决定。</strong></span>
+	<br><br>
+	<<link [[确定|Pet Abandon Confirm]]>><</link>>
+	<br>
+	<<link [[返回|Pet Shop Entrance]]>><</link>>
+<</if>>
+
+
+:: Pet Abandon Confirm
+<<set _lpet_trauma_gain to 100 + (20 * $lpet.stats.relation)>>
+<<if $lpet.stats.relation gte 70>>
+	你狠下心，签下了文件，将牵引绳交给了店员。
+	<br><br>
+	$lpet.name不敢相信地看着你，当<<lpethe>>被店员带走时，你泪水忍不住爆发出来。<<lpetHis>>目光一直追随着你，直到消失在门后。
+	<br><br>
+	一阵剧烈的痛苦和空虚攫住了你的心。你永远失去了$lpet.name。
+	<<gggtrauma>><<trauma _lpet_trauma_gain>>
+<<elseif $lpet.stats.relation gte 30>>
+	你狠下心，签下了文件，将牵引绳交给了店员。
+	<br><br>
+	$lpet.name望着你，只当是一次普通的分别，你不忍心再看<<lpethe>>，直到<<lpethe>>消失在门后。
+	<br><br>
+	一阵痛苦涌上你的心头。你抛弃了$lpet.name。
+	<<gggtrauma>><<trauma _lpet_trauma_gain>>
+<<elseif $lpet.stats.relation gte 5>>
+	你签下了文件，将牵引绳交给了店员。
+	<br><br>
+	$lpet.name四处张望着，并没有意识到将要发生什么，店员抱着<<lpethe>>消失在门后。
+	<br><br>
+	你抛弃了$lpet.name。
+	<<gggtrauma>><<trauma _lpet_trauma_gain>>
+<<else>>
+	你飞快的签下了文件，将牵引绳交给了店员。
+	<br><br>
+	$lpet.name的眼睛充满敌意的看着你，店员抱着<<lpethe>>消失在门后。
+	<br><br>
+	你终于摆脱了$lpet.name。
+<</if>>
+<<unset $lpet>>
+<br><br>
+<<link [[……|Pet Shop Entrance]]>><</link>>

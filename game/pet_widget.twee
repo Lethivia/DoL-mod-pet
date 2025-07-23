@@ -1,0 +1,190 @@
+:: Widget lpet [widget]
+
+<<widget "lpethe">>
+	<<if def $lpet>><<print $lpet.pronoun>><</if>>
+<</widget>>
+
+<<widget "lpetHe">>
+	<<if def $lpet>><<print $lpet.pronoun>><</if>>
+<</widget>>
+
+<<widget "lpethis">>
+	<<if def $lpet>><<print $lpet.pronoun + "的">><</if>>
+<</widget>>
+
+<<widget "lpetHis">>
+	<<if def $lpet>><<print $lpet.pronoun + "的">><</if>>
+<</widget>>
+
+
+/* 综合描述宠物的外貌和性别 */
+<<widget "lpetdesc">>
+	<<if def $lpet>>
+		<<set _lpet_gender_text to $lpet.gender === 'male' ? '公' : '母'>>
+		<<print $lpet.name>>是一只<<print _lpet_gender_text>>的<<print $lpet.type === 'cat' ? '猫' : '狗'>>，有着<<print $lpet.appearance.body>>、<<print $lpet.appearance.eyes>>和<<print $lpet.appearance.skin>>。
+	<</if>>
+<</widget>>
+
+
+/* 心情描述 */
+<<widget "lpetmooddesc">>
+	<<if $lpet.stats.mood gte 80>>
+		<<lpetHe>>看起来欣喜若狂，尾巴摇得像个拨浪鼓。
+	<<elseif $lpet.stats.mood gte 60>>
+		<<lpetHe>>心情很好，正愉快地在你腿边蹭来蹭去。
+	<<elseif $lpet.stats.mood gte 40>>
+		<<lpetHe>>看起来还算平静，但没什么精神。
+	<<elseif $lpet.stats.mood gte 20>>
+		<<lpetHe>>显得有些低落，无精打采地趴着。
+	<<else>>
+		<<lpetHe>>的情绪糟透了，发着悲伤的呜咽声。
+	<</if>>
+<</widget>>
+
+/* 冷静描述 */
+<<widget "lpetcalmdesc">>
+	<<if $lpet.stats.calm gte 80>>
+		<<lpetHe>>保持着平静。
+	<<elseif $lpet.stats.calm gte 60>>
+		<<lpetHe>>看起来有些焦躁。
+	<<elseif $lpet.stats.calm gte 40>>
+		<<lpetHe>>似乎想要找异性交欢。
+	<<elseif $lpet.stats.calm gte 20>>
+		<<lpetHe>>的欲望似乎快要爆发了。
+	<<else>>
+		<<lpetHe>>的眼睛一直看着你，眼神里是强烈的欲望。
+	<</if>>
+<</widget>>
+
+/* 关系描述 */
+<<widget "lpetrelationdesc">>
+	<<if $lpet.stats.relation gte 80>>
+		<<lpetHe>>完全信任你，把你当成全世界。
+	<<elseif $lpet.stats.relation gte 60>>
+		<<lpetHe>>非常喜欢你，总是跟在你身后。
+	<<elseif $lpet.stats.relation gte 40>>
+		<<lpetHe>>已经接纳了你，允许你抚摸<<lpethis>>头。
+	<<elseif $lpet.stats.relation gte 20>>
+		<<lpetHe>>对你保持着警惕，不太愿意靠近。
+	<<else>>
+		<<lpetHe>>似乎很害怕你，总是躲得远远的。
+	<</if>>
+<</widget>>
+
+/* 整洁描述 */
+<<widget "lpetcleanlinessdesc">>
+	<<if $lpet.stats.cleanliness gte 80>>
+		<<lpethis>>毛发光亮顺滑，散发着好闻的香气。
+	<<elseif $lpet.stats.cleanliness gte 60>>
+		<<lpetHe>>看起来很干净，毛发整齐。
+	<<elseif $lpet.stats.cleanliness gte 40>>
+		<<lpethis>>毛发有些凌乱，沾了点灰尘。
+	<<elseif $lpet.stats.cleanliness gte 20>>
+		<<lpetHe>>看起来脏兮兮的，身上有股味道。
+	<<else>>
+		<<lpetHe>>简直是个泥球，需要立刻进行一次大扫除。
+	<</if>>
+<</widget>>
+
+/* 强壮描述 */
+<<widget "lpetstrengthdesc">>
+	<<if $lpet.stats.strength gte 80>>
+		<<lpetHe>>肌肉结实，充满了力量感，像个小小的运动员。
+	<<elseif $lpet.stats.strength gte 60>>
+		<<lpetHe>>体格健壮，跑起来飞快。
+	<<elseif $lpet.stats.strength gte 40>>
+		<<lpetHe>>看起来很健康，但还有提升空间。
+	<<elseif $lpet.stats.strength gte 20>>
+		<<lpetHe>>显得有些瘦弱，需要加强锻炼。
+	<<else>>
+		<<lpetHe>>看起来体弱多病，没什么力气。
+	<</if>>
+<</widget>>
+
+/* 饥饿描述 */
+<<widget "lpethungerdesc">>
+	<<if $lpet.stats.hunger gte 80>>
+		<<lpetHe>>肚子圆滚滚的，看起来非常满足。
+	<<elseif $lpet.stats.hunger gte 60>>
+		<<lpetHe>>看起来不饿，对食物没什么兴趣。
+	<<elseif $lpet.stats.hunger gte 40>>
+		<<lpetHe>>肚子在咕咕叫，似乎有点饿了。
+	<<elseif $lpet.stats.hunger gte 20>>
+		<<lpetHe>>正用渴望的眼神看着你，显然是饿坏了。
+	<<else>>
+		<<lpetHe>>已经饿得有气无力了，再不喂食可能会有危险。
+	<</if>>
+<</widget>>
+
+/* 精力描述 */
+<<widget "lpetenergydesc">>
+	<<if $lpet.stats.energy gte 80>>
+		<<lpetHe>>精力充沛，上蹿下跳，一刻也停不下来。
+	<<elseif $lpet.stats.energy gte 60>>
+		<<lpetHe>>看起来很有活力，随时准备好玩耍。
+	<<elseif $lpet.stats.energy gte 40>>
+		<<lpetHe>>有些懒洋洋的，在打哈欠。
+	<<elseif $lpet.stats.energy gte 20>>
+		<<lpetHe>>看起来很疲惫，眼皮都快睁不开了。
+	<<else>>
+		<<lpetHe>>已经睡着了，发出了轻微的鼾声。
+	<</if>>
+<</widget>>
+
+
+/*
+	mood: {name: "心情"},
+	calm: {name: "冷静"},
+	relation: {name: "关系"},
+	cleanliness: {name: "整洁"},
+	strength: {name: "强壮"},
+	energy: {name: "精力"}
+*/
+<<widget "lpetmood">><<set $lpetmood to Math.clamp($lpetmood + _args[0], 0, 100)>><</widget>>
+<<widget "lpetcalm">><<set $lpetcalm to Math.clamp($lpetcalm + _args[0], 0, 100)>><</widget>>
+<<widget "lpetrelation">><<set $lpetrelation to Math.clamp($lpetrelation + _args[0], 0, 100)>><</widget>>
+<<widget "lpetcleanliness">><<set $lpetcleanliness to Math.clamp($lpetcleanliness + _args[0], 0, 100)>><</widget>>
+<<widget "lpetstrength">><<set $lpetstrength to Math.clamp($lpetstrength + _args[0], 0, 100)>><</widget>>
+<<widget "lpetenergy">><<set $lpetenergy to Math.clamp($lpetenergy + _args[0], 0, 100)>><</widget>>
+
+<<widget "llpetmood">><span class="red">| -心情</span><</widget>>
+<<widget "lllpetmood">><span class="red">| --心情</span><</widget>>
+<<widget "llllpetmood">><span class="red">| ---心情</span><</widget>>
+<<widget "glpetmood">><span class="green">| +心情</span><</widget>>
+<<widget "gglpetmood">><span class="green">| ++心情</span><</widget>>
+<<widget "ggglpetmood">><span class="green">| +++心情</span><</widget>>
+
+<<widget "llpetcalm">><span class="red">| -冷静</span><</widget>>
+<<widget "lllpetcalm">><span class="red">| --冷静</span><</widget>>
+<<widget "llllpetcalm">><span class="red">| ---冷静</span><</widget>>
+<<widget "glpetcalm">><span class="green">| +冷静</span><</widget>>
+<<widget "gglpetcalm">><span class="green">| ++冷静</span><</widget>>
+<<widget "ggglpetcalm">><span class="green">| +++冷静</span><</widget>>
+
+<<widget "llpetrelation">><span class="red">| -关系</span><</widget>>
+<<widget "lllpetrelation">><span class="red">| --关系</span><</widget>>
+<<widget "llllpetrelation">><span class="red">| ---关系</span><</widget>>
+<<widget "glpetrelation">><span class="green">| +关系</span><</widget>>
+<<widget "gglpetrelation">><span class="green">| ++关系</span><</widget>>
+<<widget "ggglpetrelation">><span class="green">| +++关系</span><</widget>>
+
+<<widget "llpetcleanliness">><span class="red">| -整洁</span><</widget>>
+<<widget "lllpetcleanliness">><span class="red">| --整洁</span><</widget>>
+<<widget "llllpetcleanliness">><span class="red">| ---整洁</span><</widget>>
+<<widget "glpetcleanliness">><span class="green">| +整洁</span><</widget>>
+<<widget "gglpetcleanliness">><span class="green">| ++整洁</span><</widget>>
+<<widget "ggglpetcleanliness">><span class="green">| +++整洁</span><</widget>>
+
+<<widget "llpetstrength">><span class="red">| -强壮</span><</widget>>
+<<widget "lllpetstrength">><span class="red">| --强壮</span><</widget>>
+<<widget "llllpetstrength">><span class="red">| ---强壮</span><</widget>>
+<<widget "glpetstrength">><span class="green">| +强壮</span><</widget>>
+<<widget "gglpetstrength">><span class="green">| ++强壮</span><</widget>>
+<<widget "ggglpetstrength">><span class="green">| +++强壮</span><</widget>>
+
+<<widget "llpetenergy">><span class="red">| -精力</span><</widget>>
+<<widget "lllpetenergy">><span class="red">| --精力</span><</widget>>
+<<widget "llllpetenergy">><span class="red">| ---精力</span><</widget>>
+<<widget "glpetenergy">><span class="green">| +精力</span><</widget>>
+<<widget "gglpetenergy">><span class="green">| ++精力</span><</widget>>
+<<widget "ggglpetenergy">><span class="green">| +++精力</span><</widget>>
